@@ -1,5 +1,9 @@
+[Purpose]
+This utility will login to your MyCourses account and navigate its way through each course. When in a course, this script will dump all the news, course content and dropbox submissions to your output location. After running the script you should have a directory for each course that contains everything that was dumped from it.
+
 [Usage]
-python mycourses.py --output /home/zms/mycourses_dump --crossdomain --news --content --dropbox --verbose 2 --delay 0
+python mycourses.py -h
+python mycourses.py --output ~/mycourses_dump --crossdomain --news --content --dropbox --verbose 2 --delay 0
 
 [Required Packages]
 libxml2-dev
