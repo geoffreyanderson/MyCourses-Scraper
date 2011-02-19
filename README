@@ -1,0 +1,11 @@
+[Usage]
+python mycourses.py --output /home/zms/mycourses_dump --crossdomain --news --content --dropbox --verbose 2 --delay 0
+
+[Required Packages]
+libxml2-dev
+libxslt1-dev
+python-lxml
+python-pyquery
+python-http
+python-httplib2
+python-demjson
