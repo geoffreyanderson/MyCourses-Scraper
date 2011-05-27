@@ -94,7 +94,7 @@ class Crawler:
 	
 	# send a post request to the server and expect HTML as a response	
 	def post( self, page, data ):
-		self.debug( 2, 102, "Sending GET request '" + page + "'" )
+		self.debug( 2, 102, "Sending POST request '" + page + "'" )
 		return self.request( page, data, True )
 	
 	# send a request to the server and expect JSON as a response
@@ -172,10 +172,11 @@ class MyCourses(Crawler):
 				# send post to the login form's action URL
 				login_page = self.post( login_form.attr[ "action" ], { 'username' : username, 'password' : password } )
 				if login_page:
-					login_page_table = login_page.find("table#z_u")
+					#login_page_table = login_page.find("table#z_u")
+					login_page_table = login_page.find("ul#z_v")
 					if login_page_table:
-						# grab each course link
-						self.course_links = login_page_table.find( "tr td a[title]" )
+						# grab each course link -- The "title" attribute of these links start with "Enter".
+						self.course_links = login_page_table.find( "div.dco_c div.dco_c ul.dl_ci li a[title~=\"Enter\"]" )
 						return True
 		return False
 	
@@ -239,8 +240,8 @@ class MyCourses(Crawler):
 						submission_count = None						
 						if not row.attr[ "class" ]:
 							dropbox_columns = row.find( "td" )
-							title_cell = dropbox_columns.eq( 0 )
-							submission_cell = dropbox_columns.eq( 2 )
+							title_cell = row.find( "th" ).eq( 0 )
+							submission_cell = dropbox_columns.eq( 1 )
 							# get the title of a dropbox
 							if title_cell:
 								title = title_cell.text()
@@ -321,7 +322,8 @@ class MyCourses(Crawler):
 			extension = self.clean_chars( rpc_response[ "Result" ][ "Location" ].rsplit("?",1)[0].rsplit(".",1)[1] )
 			if extension: 
 				# download the file from the location specified in the RPC response
-				self.download_binary( rpc_response[ "Result" ][ "Location" ].strip(), path, name + "." + extension )	
+                # XXX: the replace function replaces any spaces with "%20" since the download was failing without "uri-escaping" that :/
+				self.download_binary( rpc_response[ "Result" ][ "Location" ].strip().replace(" ", "%20"), path, name + "." + extension )	
 	
 	# parse the course news from the course's homepage
 	def download_course_news( self, course, path ):
