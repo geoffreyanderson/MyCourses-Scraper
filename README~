@@ -4,7 +4,6 @@ This python script will login to your MyCourses account and navigate its way thr
 [Usage]
 python mycourses.py -h
 python mycourses.py --output ~/mycourses_dump --crossdomain --news --content --dropbox --verbose 2 --delay 0
-python mycourses.py --output ~/mycourses_dump --crossdomain --content --dropbox --verbose 1 --delay 0
 
 [Requirements]
 This script was developed on Ubuntu Server 10.10 with the following packages installed:
